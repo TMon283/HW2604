@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>TodoList</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        a {
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+        }
+
+        .add-btn {
+            background-color: #3030f8;
+            color: #fff;
+        }
+        .add-btn:hover {
+            background-color: #1a1ae0;
+            color: #fff;
+        }
+
+        .edit-btn {
+            background-color: #e18d00;
+            color: #fff;
+        }
+        .edit-btn:hover {
+            background-color: #c67600;
+            color: #fff;
+        }
+
+        .del-btn {
+            background-color: #d9534f;
+            color: #fff;
+        }
+        .del-btn:hover {
+            background-color: #b52b27;
+            color: #fff;
+        }
+
+        .message {
+            color: green;
+        }
+
+    </style>
+</head>
+<body>
+<a th:href="@{/add}" class="add-btn">Thêm mới</a>
+
+<table class="table table-striped">
+    <tr>
+        <th>ID</th>
+        <th>Nội dung</th>
+        <th>Ngày hết hạn</th>
+        <th>Trạng thái</th>
+        <th>Độ ưu tiên</th>
+        <th colspan="2">Hành động</th>
+    </tr>
+    <tr th:each="todo : ${todos}">
+        <td th:text="${todo.id}"></td>
+        <td th:text="${todo.content}"></td>
+        <td th:text="${todo.dueDate}"></td>
+        <td th:text="${todo.status}"></td>
+        <td th:text="${todo.priority}"></td>
+        <td>
+            <a th:href="@{/todos/edit/{id}(id=${todo.id})}" class="edit-btn">Sửa</a>
+            <a th:href="@{/todos/delete/{id}(id=${todo.id})}"
+               onclick="return confirm('Bạn có chắc muốn xóa?')" class="del-btn">Xóa</a>
+        </td>
+    </tr>
+</table>
+<div th:if="${message}" id="message">
+    <p th:text="${message}" class="message"></p>
+</div>
+<script>
+    setTimeout(function() {
+        const msg = document.getElementById("message");
+        if (msg) {
+            msg.style.display = "none";
+        }
+    }, 3000);
+</script>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+</html>
