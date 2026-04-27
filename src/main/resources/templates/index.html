@@ -50,16 +50,17 @@
     </style>
 </head>
 <body>
-<a th:href="@{/add}" class="add-btn">Thêm mới</a>
+<h3 th:text="#{owner} + ': ' + ${ownerName}"></h3>
+<a th:href="@{/add}" class="add-btn" th:text="#{add}"></a>
 
 <table class="table table-striped">
     <tr>
-        <th>ID</th>
-        <th>Nội dung</th>
-        <th>Ngày hết hạn</th>
-        <th>Trạng thái</th>
-        <th>Độ ưu tiên</th>
-        <th colspan="2">Hành động</th>
+        <th th:text="#{id}"></th>
+        <th th:text="#{content}"></th>
+        <th th:text="#{dueDate}"></th>
+        <th th:text="#{status}"></th>
+        <th th:text="#{priority}"></th>
+        <th colspan="2" th:text="#{action}"></th>
     </tr>
     <tr th:each="todo : ${todos}">
         <td th:text="${todo.id}"></td>
@@ -68,12 +69,13 @@
         <td th:text="${todo.status}"></td>
         <td th:text="${todo.priority}"></td>
         <td>
-            <a th:href="@{/todos/edit/{id}(id=${todo.id})}" class="edit-btn">Sửa</a>
+            <a th:href="@{/todos/edit/{id}(id=${todo.id})}" class="edit-btn" th:text="#{edit}"></a>
             <a th:href="@{/todos/delete/{id}(id=${todo.id})}"
-               onclick="return confirm('Bạn có chắc muốn xóa?')" class="del-btn">Xóa</a>
+               onclick="return confirm('Bạn có chắc muốn xóa?')" class="del-btn" th:text="#{delete}"></a>
         </td>
     </tr>
 </table>
+<a href="?lang=vi">Tiếng Việt</a> | <a href="?lang=en">English</a>
 <div th:if="${message}" id="message">
     <p th:text="${message}" class="message"></p>
 </div>

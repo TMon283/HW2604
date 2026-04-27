@@ -2,6 +2,7 @@ package com.example.btvn_2504.controller;
 
 import com.example.btvn_2504.model.Todo;
 import com.example.btvn_2504.service.ITodoService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -18,7 +19,12 @@ public class TodoController {
     private final ITodoService todoService;
 
     @GetMapping("/")
-    public String listTodos(Model model) {
+    public String listTodos(Model model, HttpSession session) {
+        String ownerName = (String) session.getAttribute("ownerName");
+        if (ownerName == null) {
+            return "redirect:/welcome";
+        }
+        model.addAttribute("ownerName", ownerName);
         model.addAttribute("todos", todoService.findAll());
         return "index";
     }
@@ -61,4 +67,22 @@ public class TodoController {
         }
         return "redirect:/";
     }
+
+    @GetMapping("/welcome")
+    public String showWelcomePage() {
+        return "welcome";
+    }
+
+    @PostMapping("/welcome")
+    public String saveOwnerName(@RequestParam String ownerName,
+                                HttpSession session,
+                                RedirectAttributes redirectAttributes) {
+        if (ownerName == null || ownerName.trim().isEmpty()) {
+            redirectAttributes.addFlashAttribute("message", "Tên không được để trống!");
+            return "redirect:/welcome";
+        }
+        session.setAttribute("ownerName", ownerName);
+        return "redirect:/";
+    }
+
 }
